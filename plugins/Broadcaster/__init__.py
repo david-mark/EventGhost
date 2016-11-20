@@ -88,8 +88,10 @@ class Server(asyncore.dispatcher):
         # Check if the sending address is any of our interfaces
         my_addr = addr[0] in self.addresses
 
-        if (not my_addr) or self.selfBroadcast:
-            bits = data.split(str(self.payDelim))
+        iif (not my_addr) or self.selfBroadcast:
+            bits = data.split(self.payDelim)
+            bits = [bit.decode('utf-8') for bit in bits]
+
             commandSize=len(bits)
             if commandSize==1:
                 self.plugin.TriggerEvent(bits[0])
